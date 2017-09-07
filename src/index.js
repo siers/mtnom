@@ -1,13 +1,24 @@
-import React from 'react'
 import ReactDOM from 'react-dom'
+import React from 'react'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+import createLogger from 'redux-logger'
 
+import { initialState } from './state'
 import './index.css'
 import Metronome from './Metronome'
 import { rootReducer } from './reducers'
 
-const store = createStore(rootReducer, {on: true})
+const loggerMiddleware = createLogger({
+  duration: true,
+  timestamp: false,
+  collapsed: true,
+  predicate: (getState, action) => (
+    action.type !== 'NOOP'
+  )
+})
+
+const store = createStore(rootReducer, initialState, applyMiddleware(loggerMiddleware))
 
 ReactDOM.render(
   <Provider store={store}>
