@@ -1,13 +1,20 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
 import './Metronome.css'
 
 class Metronome extends Component {
   render() {
     return (
-      <div className="metronome">
+      <div id="metronome">
+        <div className="add-row" />
       </div>
     )
   }
 }
 
-export default Metronome
+const mapStateToProps = state => ({
+  on: state.on
+})
+
+export default connect(mapStateToProps)(Metronome)
