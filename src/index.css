@@ -4,3 +4,5 @@ body {
   padding: 1em;
   font-family: sans-serif;
 }
+
+a { cursor: pointer; }

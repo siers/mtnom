@@ -1,5 +1,5 @@
 #metronome { width: 95%; margin: auto; padding: 10px; background-color: rgba(255, 255, 255, .15); border-radius: 5px; }
 #metronome > * + * { margin-top: 1em; }
 
-#metronome .add-row { text-align: center; }
+#metronome .add-row { display: block; text-align: center; }
 #metronome .add-row:before { font-weight: bold; content: "+"; }

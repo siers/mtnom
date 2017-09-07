@@ -7,7 +7,7 @@ class Metronome extends Component {
   render() {
     return (
       <div id="metronome">
-        <div className="add-row" />
+        <a className="add-row" />
       </div>
     )
   }
