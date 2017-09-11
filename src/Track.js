@@ -2,7 +2,7 @@ import _ from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-// import { addRow } from './actions'
+import { toggleBeat } from './actions'
 
 class Track extends Component {
   render() {
@@ -11,8 +11,8 @@ class Track extends Component {
     return (
       <div className="track">
         <div className="beats">
-          {_.map(beats, (beat, i) => (
-            <div key={i} className="beat">{beat}</div>
+          {_.map(beats, (beat, j) => (
+            <a key={j} className="beat" onClick={() => this.props.toggleBeat({x: this.props.i, y: j})}>{beat}</a>
           ))}
         </div>
         <div className="add-beat" />
@@ -21,6 +21,8 @@ class Track extends Component {
   }
 }
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+  toggleBeat
+}
 
 export default connect(() => ({}), mapDispatchToProps)(Track)
