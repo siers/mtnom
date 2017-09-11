@@ -10,10 +10,11 @@
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.6",
-    "redux-fp": "^0.2.0",
     "redux": "^3.7.2",
-    "redux-logger": "^2.8.2",
-    "redux-actions": "^2.2.1"
+    "redux-actions": "^2.2.1",
+    "redux-fp": "^0.2.0",
+    "redux-localstorage": "^0.4.1",
+    "redux-logger": "^2.8.2"
   },
   "scripts": {
     "start": "react-scripts start",

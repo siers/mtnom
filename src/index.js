@@ -1,8 +1,9 @@
 import ReactDOM from 'react-dom'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, compose, applyMiddleware } from 'redux'
 import createLogger from 'redux-logger'
+import persistState from 'redux-localstorage'
 
 import { initialState } from './state'
 import './index.css'
@@ -18,7 +19,14 @@ const loggerMiddleware = createLogger({
   )
 })
 
-const store = createStore(rootReducer, initialState, applyMiddleware(loggerMiddleware))
+const store = createStore(
+  rootReducer,
+  initialState,
+  compose(
+    applyMiddleware(loggerMiddleware),
+    persistState(),
+  )
+)
 
 ReactDOM.render(
   <Provider store={store}>
