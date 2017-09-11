@@ -2,8 +2,18 @@
 #metronome > * + * { margin-top: 1em; }
 
 #metronome .beats { display: flex; margin: 5px; }
-#metronome .beats .beat { flex: auto;  height: 1em; padding: 0.5em; background: #fc0; border-radius: 5px; text-align: center; }
 #metronome .beats .beat + .beat { margin-left: 0.7em; }
+#metronome .beats .beat.silent { background: #420051; }
+#metronome .beats .beat {
+    flex: auto;
+    flex-basis: 0;
+    height: 1em;
+    padding: 0.5em;
+    background: #fc0;
+    border-radius: 5px;
+    text-align: center;
+    color: transparent;
+}
 
 #metronome .add-row { display: block; text-align: center; }
 #metronome .add-row:before { font-weight: bold; content: "+"; }
