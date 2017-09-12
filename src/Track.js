@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 
-import { toggleBeat } from './actions'
+import { toggleBeat, addBeat } from './actions'
 
 class Track extends Component {
   render() {
@@ -20,14 +20,16 @@ class Track extends Component {
             />
           ))}
         </div>
-        <div className="add-beat" />
+
+        <a className="add-beat" onClick={() => this.props.addBeat({x: this.props.i})} />
       </div>
     )
   }
 }
 
 const mapDispatchToProps = {
-  toggleBeat
+  toggleBeat,
+  addBeat,
 }
 
 export default connect(() => ({}), mapDispatchToProps)(Track)

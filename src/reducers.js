@@ -5,6 +5,10 @@ import { handleActions, concat } from 'redux-fp'
 const tableUpdater = handleActions({
   ADD_ROW: () => fp.update('table', table => table.concat([['.']])),
 
+  ADD_BEAT: ({ payload: { x } }) =>
+    fp.update(`table.${ x }`, row =>
+      row.concat(['.'])),
+
   TOGGLE_BEAT: ({ payload: { x, y } }) =>
     fp.update(`table.[${x}][${y}]`,
       elem => _.difference(['#', '.'], [elem])[0]
