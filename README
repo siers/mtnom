@@ -1,0 +1,8 @@
+- mtnom
+    A theoretically viable metronome UI that doens't have a backend yet.
+
+    A single bar would take as much time as two bars with the size of one.
+    This would allow you to create all kinds of weird poly-rhythmic metros.
+
+- uses
+    react, redux, rxjs
