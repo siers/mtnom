@@ -12,7 +12,8 @@ const tableUpdater = handleActions({
   REMOVE_BEAT: ({ payload: { x, y } }) =>
     fp.pipe(
       fp.unset(`table.${ x }.${ y }`),
-      fp.update(`table.${ x }`, fp.compact)
+      fp.update(`table.${ x }`, fp.compact),
+      fp.update(`table`, fp.filter(row => row.length !== 0)),
     ),
 
   TOGGLE_BEAT: ({ payload: { x, y } }) =>
