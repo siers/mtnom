@@ -16,11 +16,25 @@ class Track extends Component {
             ev.target.classList.contains('beat')))
 
     this.obs$ =
-      down$.mergeMap(down =>
-        Rx.Observable.of(down).delay(350).takeUntil(leave$).takeUntil(up$)
-      ).subscribe(({ target: { dataset: { x, y } } }) =>
-        this.props.removeBeat({ x, y })
-      )
+      down$.mergeMap(down => {
+        const hold$ = Rx.Observable.of(down)
+          .delay(350).takeUntil(leave$).takeUntil(up$)
+          .map(ev => ['hold', ev])
+
+        const click$ = up$.takeUntil(hold$)
+          .map(ev => ['click', ev]).take(1)
+
+        return Rx.Observable.merge(hold$, click$)
+      })
+
+    const eventMap = {
+      'hold': 'removeBeat',
+      'click': 'toggleBeat',
+    }
+
+    this.obs$.subscribe(([type, ev]) =>
+      this.props[eventMap[type]](Object.assign({}, ev.target.dataset))
+    )
   }
 
   componentWillUnmount = () => this.obs$.unsubscribe()
@@ -37,7 +51,6 @@ class Track extends Component {
                 key={y}
                 className={classNames("beat", {silent: beat === '.'})}
                 {..._.mapKeys(data, (_, k) => `data-${k}`)}
-                onClick={() => this.props.toggleBeat(data)}
               />
           })}
         </div>
