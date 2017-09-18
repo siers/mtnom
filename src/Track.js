@@ -15,15 +15,30 @@ class Track extends Component {
           obs.filter(ev =>
             ev.target.classList.contains('beat')))
 
-    this.obs$ =
+    this.hold$ =
       down$.mergeMap(down =>
         Rx.Observable.of(down).delay(350).takeUntil(leave$).takeUntil(up$)
-      ).subscribe(({ target: { dataset: { x, y } } }) =>
-        this.props.removeBeat({ x, y })
       )
+
+    this.click$ =
+      down$.mergeMap(down =>
+        Rx.Observable.of(down)
+          .mergeMap(() => up$.take(1))
+          .takeUntil(this.hold$)
+      )
+
+    const toAction = action => ev =>
+      this.props[action](Object.assign({}, ev.target.dataset))
+
+    this.hold$.do(console.log)
+    this.hold$.subscribe(toAction('removeBeat'))
+    this.click$.subscribe(toAction('toggleBeat'))
   }
 
-  componentWillUnmount = () => this.obs$.unsubscribe()
+  componentWillUnmount() {
+    this.hold$.unsubscribe()
+    this.click$.unsubscribe()
+  }
 
   render() {
     const { beats } = this.props
@@ -37,7 +52,6 @@ class Track extends Component {
                 key={y}
                 className={classNames("beat", {silent: beat === '.'})}
                 {..._.mapKeys(data, (_, k) => `data-${k}`)}
-                onClick={() => this.props.toggleBeat(data)}
               />
           })}
         </div>
