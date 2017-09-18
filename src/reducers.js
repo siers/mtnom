@@ -9,6 +9,12 @@ const tableUpdater = handleActions({
     fp.update(`table.${ x }`, row =>
       row.concat(['.'])),
 
+  REMOVE_BEAT: ({ payload: { x, y } }) =>
+    fp.pipe(
+      fp.unset(`table.${ x }.${ y }`),
+      fp.update(`table.${ x }`, fp.compact)
+    ),
+
   TOGGLE_BEAT: ({ payload: { x, y } }) =>
     fp.update(`table.[${x}][${y}]`,
       elem => _.difference(['#', '.'], [elem])[0]
