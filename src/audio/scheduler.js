@@ -42,9 +42,11 @@ class Scheduler {
   beat() {
     console.log('beat')
 
-    const oscs = _.map(
-        generateTrackBeats(this.table[0], this.period, 50),
-        oscillate(this.ctx, this.nextTime))
+    const oscs =
+        _.map(
+            _.flatMap(this.table, row =>
+                generateTrackBeats(row, this.period, 50)),
+            oscillate(this.ctx, this.nextTime))
 
     this.nextTime += this.period
   }
