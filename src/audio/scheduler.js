@@ -3,9 +3,9 @@ import { timerWorker, workerFromFn } from './timer'
 
 class Scheduler {
   // period is measured in miliseconds
+  // assuming the this.ctx.currentTime starts from 0
   constructor(period, table) {
     this.table = table
-    this.ctx = new AudioContext()
 
     this.nextTime = 0
     this.period = period
@@ -33,6 +33,11 @@ class Scheduler {
 
   schedule() {
     console.log('sched')
+
+    // Because it takes some time for the interval worker to start up,
+    // let's initialize AudioContext late, so we won't start when it's
+    // currentTime is 0.5 already.
+    this.ctx = this.ctx || new AudioContext()
 
     // Schedule a single period ahead.
     if (this.nextTime < this.ctx.currentTime * 1000 + this.period)
