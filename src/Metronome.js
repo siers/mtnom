@@ -6,13 +6,11 @@ import Track from './Track.js'
 import './Metronome.css'
 import { addRow } from './actions'
 
-import { timerWorker, workerFromFn } from './audio/timer'
+import { Scheduler } from './audio/scheduler'
 
 class Metronome extends Component {
   componentDidMount() {
-    this.timer = new workerFromFn(timerWorker)
-    this.timer.postMessage({"msg": "start"})
-    this.timer.postMessage({"msg": "interval", "data": 2000})
+    this.scheduler = new Scheduler(2000, this.props.table[0])
   }
 
   componentWillUnmount() {

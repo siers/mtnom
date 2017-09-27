@@ -36,4 +36,3 @@ ReactDOM.render(
 
 window.store = store
 window.dispatch = store.dispatch
-window.audioCtx = new AudioContext()
