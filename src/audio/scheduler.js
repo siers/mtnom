@@ -40,8 +40,6 @@ class Scheduler {
   }
 
   beat() {
-    console.log('beat')
-
     const oscs =
         _.map(
             _.flatMap(this.table, row =>
@@ -52,8 +50,6 @@ class Scheduler {
   }
 
   schedule() {
-    console.log('sched')
-
     // Because it takes some time for the interval worker to start up,
     // let's initialize AudioContext late, so we won't start when it's
     // currentTime is 0.5 already.

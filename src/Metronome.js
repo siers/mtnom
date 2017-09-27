@@ -17,6 +17,10 @@ class Metronome extends Component {
     this.timer.postMessage({"msg": "stop"})
   }
 
+  componentDidUpdate() {
+    this.scheduler.table = this.props.table
+  }
+
   render() {
     const { table } = this.props
 
