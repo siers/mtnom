@@ -12,13 +12,16 @@ const generateTrackBeats = (beats, period, length) =>
     }
   })
 
+const mapTime = f => ([start, end]) =>
+    [f(start), f(end)]
+
 const oscillate = (ctx, shift) => ([start, end]) => {
   const osc = ctx.createOscillator()
   osc.connect(ctx.destination)
   osc.frequency.value = 440
 
-  osc.start(shift / 1000 + start / 1000)
-  osc.stop(shift / 1000 + end / 1000)
+  osc.start(start)
+  osc.stop(end)
   return osc
 }
 
@@ -40,11 +43,11 @@ class Scheduler {
   }
 
   beat() {
-    const oscs =
-        _.map(
-            _.flatMap(this.table, row =>
-                generateTrackBeats(row, this.period, 50)),
-            oscillate(this.ctx, this.nextTime))
+    _(this.table)
+      .flatMap(row => generateTrackBeats(row, this.period, 50))
+      .map(mapTime(beat => (this.nextTime + beat) / 1000))
+      .map(oscillate(this.ctx))
+      .value()
 
     this.nextTime += this.period
   }
