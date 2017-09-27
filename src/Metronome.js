@@ -6,7 +6,19 @@ import Track from './Track.js'
 import './Metronome.css'
 import { addRow } from './actions'
 
+import { timerWorker, workerFromFn } from './audio/timer'
+
 class Metronome extends Component {
+  componentDidMount() {
+    this.timer = new workerFromFn(timerWorker)
+    this.timer.postMessage({"msg": "start"})
+    this.timer.postMessage({"msg": "interval", "data": 2000})
+  }
+
+  componentWillUnmount() {
+    this.timer.postMessage({"msg": "stop"})
+  }
+
   render() {
     const { table } = this.props
 
