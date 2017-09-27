@@ -8,17 +8,18 @@ const generateTrackBeats = (beats, period, length) =>
         return []
     } else {
         const start = period * (idx / beats.length)
-        return [[start, start + length]]
+        const color = idx === 0 ? 880 : 440
+        return [[color, start, start + length]]
     }
   })
 
-const mapTime = f => ([start, end]) =>
-    [f(start), f(end)]
+const mapTime = f => ([color, start, end]) =>
+    [color, f(start), f(end)]
 
-const oscillate = (ctx, shift) => ([start, end]) => {
+const oscillate = (ctx, shift) => ([color, start, end]) => {
   const osc = ctx.createOscillator()
   osc.connect(ctx.destination)
-  osc.frequency.value = 440
+  osc.frequency.value = color
 
   osc.start(start)
   osc.stop(end)
