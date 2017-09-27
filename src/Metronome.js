@@ -10,7 +10,7 @@ import { Scheduler } from './audio/scheduler'
 
 class Metronome extends Component {
   componentDidMount() {
-    this.scheduler = new Scheduler(2000, this.props.table[0])
+    this.scheduler = new Scheduler(2000, this.props.table)
   }
 
   componentWillUnmount() {

@@ -1,6 +1,27 @@
 import _ from 'lodash'
 import { timerWorker, workerFromFn } from './timer'
 
+// table's row -> [(start, end)]
+const generateTrackBeats = (beats, period, length) =>
+  _.flatMap(beats, (beat, idx) => {
+    if (beat === '.') {
+        return []
+    } else {
+        const start = period * (idx / beats.length)
+        return [[start, start + length]]
+    }
+  })
+
+const oscillate = (ctx, shift) => ([start, end]) => {
+  const osc = ctx.createOscillator()
+  osc.connect(ctx.destination)
+  osc.frequency.value = 440
+
+  osc.start(shift / 1000 + start / 1000)
+  osc.stop(shift / 1000 + end / 1000)
+  return osc
+}
+
 class Scheduler {
   // period is measured in miliseconds
   // assuming the this.ctx.currentTime starts from 0
@@ -21,12 +42,9 @@ class Scheduler {
   beat() {
     console.log('beat')
 
-    var osc = this.ctx.createOscillator()
-    osc.connect(this.ctx.destination)
-    osc.frequency.value = 440
-
-    osc.start(this.nextTime / 1000)
-    osc.stop((this.nextTime + 50) / 1000)
+    const oscs = _.map(
+        generateTrackBeats(this.table[0], this.period, 50),
+        oscillate(this.ctx, this.nextTime))
 
     this.nextTime += this.period
   }
