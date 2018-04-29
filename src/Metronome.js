@@ -25,7 +25,7 @@ class Metronome extends Component {
     const { table } = this.props
 
     return (
-      <div id="metronome">
+      <div id="metronome" onClick={() => this.scheduler.ctx.resume()}>
         <div className="list">
           {_.map(table, (beats, i) =>
             <Track key={i} beats={beats} i={i} />)
